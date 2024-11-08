@@ -1,0 +1,5 @@
+rm ./constant/cyclotron.stl
+rm ./constant/*2.stl
+rm ./constant/*3.stl
+rm -r ./100
+rm -r ./constant/polyMesh

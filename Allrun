@@ -1,0 +1,13 @@
+#!/bin/bash
+surfaceTransformPoints -scale 0.001 ./constant/dee.stl ./constant/dee2.stl
+surfaceTransformPoints -scale 0.001 ./constant/body.stl ./constant/body2.stl
+surfaceTransformPoints -scale 0.001 ./constant/dummy.stl ./constant/dummy2.stl
+surfaceTransformPoints -scale 0.001 ./constant/filament.stl ./constant/filament2.stl
+sed s/zone0/dee/g ./constant/dee2.stl > ./constant/dee3.stl
+sed s/zone0/body/g ./constant/body2.stl > ./constant/body3.stl
+sed s/zone0/dummy/g ./constant/dummy2.stl > ./constant/dummy3.stl
+sed s/zone0/filament/g ./constant/filament2.stl > ./constant/filament3.stl
+cat ./constant/dee3.stl ./constant/body3.stl ./constant/dummy3.stl ./constant/filament3.stl > ./constant/cyclotron.stl
+surfaceFeatureEdges -angle 45 constant/cyclotron.stl constant/cyclotron2.stl
+cartesianMesh
+electrostaticFoam

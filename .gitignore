@@ -1,0 +1,10 @@
+*
+!*/
+!.gitignore
+!Allrun
+!Allclean
+!system/controlDict
+!system/fvSchemes
+!system/fvSolution
+!system/meshDict
+!0/*
