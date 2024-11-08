@@ -1,0 +1,26 @@
+#!/bin/bash
+surfaces=(
+    "dee"
+    "body"
+    "dummy"
+    "filament"
+    "cable"
+)
+
+for surface in "${surfaces[@]}" ; do
+    surfaceTransformPoints -scale 0.001 ./constant/${surface}.stl ./constant/${surface}2.stl
+    sed s/OpenSCAD_Model/${surface}/g ./constant/${surface}2.stl > ./constant/${surface}3.stl
+done
+cat ./constant/dee3.stl ./constant/body3.stl ./constant/dummy3.stl ./constant/filament3.stl ./constant/cable3.stl > ./constant/cyclotron.stl
+surfaceFeatureEdges -angle 45 constant/cyclotron.stl constant/cyclotron2.stl
+cartesianMesh
+cp ./0/rho ./cases/filament/0/
+sed -e "s/<dee>/1/" -e "s/<filament>/0/" ./0/phi  > ./cases/filament/0/phi
+cp -r ./constant/polyMesh ./cases/filament/constant/
+cp -r ./constant/physicalProperties ./cases/filament/constant/
+cp -r ./system ./cases/filament/
+cp ./0/rho ./cases/dee/0/
+sed -e "s/<dee>/0/" -e "s/<filament>/1/" ./0/phi  > ./cases/dee/0/phi
+cp -r ./constant/polyMesh ./cases/dee/constant/
+cp -r ./constant/physicalProperties ./cases/dee/constant/
+cp -r ./system ./cases/dee/

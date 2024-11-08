@@ -1,10 +1,12 @@
 *
 !*/
 !.gitignore
-!Allrun
+!Allrun*
 !Allclean
 !system/controlDict
 !system/fvSchemes
 !system/fvSolution
 !system/meshDict
 !0/*
+!*.scad
+cases

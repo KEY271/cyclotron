@@ -27,6 +27,10 @@ localRefinement
     {
         cellSize 0.0001;
     }
+    "cable.*"
+    {
+        cellSize 0.0001;
+    }
 }
 
 renameBoundary
@@ -34,6 +38,11 @@ renameBoundary
     newPatchNames
     {
         "dummy.*"
+        {
+            newName "body";
+            newType patch;
+        }
+        "cable.*"
         {
             newName "body";
             newType patch;

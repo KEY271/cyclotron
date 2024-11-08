@@ -1,0 +1,2 @@
+electrostaticFoam -case ./cases/filament
+electrostaticFoam -case ./cases/dee
