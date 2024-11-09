@@ -14,13 +14,27 @@ done
 cat ./constant/dee3.stl ./constant/body3.stl ./constant/dummy3.stl ./constant/filament3.stl ./constant/cable3.stl > ./constant/cyclotron.stl
 surfaceFeatureEdges -angle 45 constant/cyclotron.stl constant/cyclotron2.stl
 cartesianMesh
-cp ./0/rho ./cases/filament/0/
-sed -e "s/<dee>/1/" -e "s/<filament>/0/" ./0/phi  > ./cases/filament/0/phi
-cp -r ./constant/polyMesh ./cases/filament/constant/
-cp -r ./constant/physicalProperties ./cases/filament/constant/
-cp -r ./system ./cases/filament/
+
+mkdir -p ./cases/dee/0
+mkdir -p ./cases/dee/constant
+cp ./0/phi_dee ./cases/dee/0/phi
 cp ./0/rho ./cases/dee/0/
-sed -e "s/<dee>/0/" -e "s/<filament>/1/" ./0/phi  > ./cases/dee/0/phi
 cp -r ./constant/polyMesh ./cases/dee/constant/
 cp -r ./constant/physicalProperties ./cases/dee/constant/
 cp -r ./system ./cases/dee/
+
+mkdir -p ./cases/filament/0
+mkdir -p ./cases/filament/constant
+cp ./0/phi_filament ./cases/filament/0/phi
+cp ./0/rho ./cases/filament/0/
+cp -r ./constant/polyMesh ./cases/filament/constant/
+cp -r ./constant/physicalProperties ./cases/filament/constant/
+cp -r ./system ./cases/filament/
+
+mkdir -p ./cases/filament2/0
+mkdir -p ./cases/filament2/constant
+cp ./0/phi_filament2 ./cases/filament2/0/phi
+cp ./0/rho ./cases/filament2/0/
+cp -r ./constant/polyMesh ./cases/filament2/constant/
+cp -r ./constant/physicalProperties ./cases/filament2/constant/
+cp -r ./system ./cases/filament2/
