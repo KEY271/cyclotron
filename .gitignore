@@ -9,4 +9,10 @@
 !system/meshDict
 !0/*
 !*.scad
+!test/system/*
+!test/constant/physicalProperties
+!electrostaticFoam_P/createFields.H
+!electrostaticFoam_P/electrostaticFoam.C
+!electrostaticFoam_P/Make/files
+!electrostaticFoam_P/Make/options
 cases
