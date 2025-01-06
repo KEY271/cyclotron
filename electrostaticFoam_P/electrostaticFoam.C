@@ -19,11 +19,11 @@ int main(int argc, char *argv[])
     Info << "\nInitializing\n" << endl;
 
     const volVectorField E1 = (-fvc::grad(phi1) * V).ref();
-    const volVectorField E2 = (-fvc::grad(phi2) * Vf).ref();
+    const volVectorField E2 = (-fvc::grad(phi2)).ref();
     const volVectorField E3 = (-fvc::grad(phi3) * Vi / 2.0).ref();
-    const volVectorField E23 = (E2 + E3).ref();
     const interpolationCellPoint<vector> E1Interp(E1);
-    const interpolationCellPoint<vector> E23Interp(E23);
+    const interpolationCellPoint<vector> E2Interp(E2);
+    const interpolationCellPoint<vector> E3Interp(E2);
 
     const double timestep = 0.001e-6;
     double time = 0;
@@ -40,8 +40,13 @@ int main(int argc, char *argv[])
     const fileName file = dir / "result.csv";
     OFstream os(file);
 
-    for (double b = 0; b < 0.3; b += 0.005) {
+    double b = 0.236;
+
+    for (double vf = 0; vf >= -300; vf -= 25) {
         int count = 0;
+        int fallen = 0;
+        int r_hit = 0;
+        int z_hit = 0;
         for (int n = 1; n <= 1000; ++n) {
             // const fileName file = dir / "trajectory" + std::to_string(n);
             // OFstream os(file);
@@ -53,12 +58,15 @@ int main(int argc, char *argv[])
             for (int i = 0; i < 100000; ++i) {
                 if ((p.x() - 0.005) * (p.x() - 0.005) + (p.y() + 0.005) * (p.y() + 0.005) < 0.00025 * 0.00025 &&
                     p.z() > 0.006 && p.z() < 0.014) {
+                    fallen++;
                     break;
                 }
                 if (p.x() * p.x() + p.y() * p.y() > 0.025 * 0.025) {
+                    r_hit++;
                     break;
                 }
                 if (p.z() < 0.004 || p.z() > 0.014) {
+                    z_hit++;
                     break;
                 }
                 if (p.z() > 0.006 && p.z() < 0.014 && p.x() > -0.002 && p.x() < 0.002 && p.y() < -0.015 && p.y() > -0.025) {
@@ -71,25 +79,29 @@ int main(int argc, char *argv[])
                 }
                 const vector dv1 = (
                     E1Interp.interpolate(p, cell) * std::sin(2.0 * M_PI * (f.value() * time + theta))
-                    + E23Interp.interpolate(p, cell)
+                    + E2Interp.interpolate(p, cell) * vf
+                    + E3Interp.interpolate(p, cell)
                     + vector(v.y() * b, -v.x() * b, 0.0)) * (e / m * timestep).value();
 
                 const point p2 = p + 0.5 * (v + dv1) * timestep;
                 const vector dv2 = (
                     E1Interp.interpolate(p2, cell) * std::sin(2.0 * M_PI * (f.value() * (time + timestep / 2.0) + theta))
-                    + E23Interp.interpolate(p2, cell)
+                    + E2Interp.interpolate(p2, cell) * vf
+                    + E3Interp.interpolate(p2, cell)
                     + vector(v.y() * b, -v.x() * b, 0.0)) * (e / m * timestep).value();
 
                 const point p3 = p2 + 0.5 * (v + dv2) * timestep;
                 const vector dv3 = (
                     E1Interp.interpolate(p3, cell) * std::sin(2.0 * M_PI * (f.value() * (time + timestep / 2.0) + theta))
-                    + E23Interp.interpolate(p3, cell)
+                    + E2Interp.interpolate(p3, cell) * vf
+                    + E3Interp.interpolate(p3, cell)
                     + vector(v.y() * b, -v.x() * b, 0.0)) * (e / m * timestep).value();
 
                 const point p4 = p3 + (v + dv3) * timestep;
                 const vector dv4 = (
                     E1Interp.interpolate(p4, cell) * std::sin(2.0 * M_PI * (f.value() * (time + timestep) + theta))
-                    + E23Interp.interpolate(p4, cell)
+                    + E2Interp.interpolate(p4, cell) * vf
+                    + E3Interp.interpolate(p4, cell)
                     + vector(v.y() * b, -v.x() * b, 0.0)) * (e / m * timestep).value();
 
                 p += (v + (dv1 * 2.0 + dv2 * 2.0 + dv3) / 6.0) * timestep;
@@ -100,8 +112,8 @@ int main(int argc, char *argv[])
             }
             time = 0;
         }
-        os << b << " " << count << endl;
-        Info << "B " << b << " T done; count = " << count << "\n" << endl;
+        os << vf << " " << count << " " << fallen << " " << r_hit << " " << z_hit << endl;
+        Info << "Vf " << vf << " V done; count = " << count << "\n" << endl;
     }
 
     Info << "End\n" << endl;
