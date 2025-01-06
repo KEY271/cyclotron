@@ -23,7 +23,7 @@ boundaryField
     dee
     {
         type            fixedValue;
-        value           uniform 1;
+        value           uniform 0;
     }
 
     filament
@@ -41,7 +41,7 @@ boundaryField
     faraday
     {
         type            fixedValue;
-        value           uniform 0;
+        value           uniform 1;
     }
 }
 

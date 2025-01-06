@@ -44,6 +44,12 @@ boundaryField
         type            fixedValue;
         value           uniform 0;
     }
+
+    faraday
+    {
+        type            fixedValue;
+        value           uniform 0;
+    }
 }
 
 // ************************************************************************* //

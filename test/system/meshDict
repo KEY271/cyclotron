@@ -62,6 +62,11 @@ renameBoundary
             newName "filament";
             newType patch;
         }
+        "faraday.*"
+        {
+            newName "faraday";
+            newType patch;
+        }
     }
 }
 

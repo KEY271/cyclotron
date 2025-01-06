@@ -3,8 +3,10 @@
 electrostaticFoam -case ./cases/dee
 electrostaticFoam -case ./cases/filament
 electrostaticFoam -case ./cases/filament2
+electrostaticFoam -case ./cases/faraday
 
 cp ./cases/dee/100/phi ./test/0/phi1
 cp ./cases/filament/100/phi ./test/0/phi2
 cp ./cases/filament2/100/phi ./test/0/phi3
+cp ./cases/faraday/100/phi ./test/0/phi4
 ln -s ../../constant/polyMesh ./test/constant/polyMesh

@@ -54,6 +54,13 @@
         physicalProperties
     );
 
+     dimensionedScalar Vc
+    (
+        "Vc",
+        dimensionSet(1, 1, -3, 0, 0, -1, 0),
+        physicalProperties
+    );
+
     Info<< "Reading field phi\n" << endl;
     volScalarField phi1
     (
@@ -84,6 +91,18 @@
         IOobject
         (
             "phi3",
+            runTime.timeName(),
+            mesh,
+            IOobject::MUST_READ,
+            IOobject::NO_WRITE
+        ),
+        mesh
+    );
+    volScalarField phi4
+    (
+        IOobject
+        (
+            "phi4",
             runTime.timeName(),
             mesh,
             IOobject::MUST_READ,

@@ -1,4 +1,4 @@
-translate ([10, -25, 0]) {
+translate ([5, -25, 0]) {
     difference () {
         cube([6, 50, 14]);
         translate([-1, 1, 4]) {

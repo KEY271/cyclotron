@@ -6,13 +6,14 @@ surfaces=(
     "dummy"
     "filament"
     "cable"
+    "faraday"
 )
 
 for surface in "${surfaces[@]}" ; do
     surfaceTransformPoints -scale 0.001 ./constant/${surface}.stl ./constant/${surface}2.stl
     sed s/OpenSCAD_Model/${surface}/g ./constant/${surface}2.stl > ./constant/${surface}3.stl
 done
-cat ./constant/dee3.stl ./constant/body3.stl ./constant/dummy3.stl ./constant/filament3.stl ./constant/cable3.stl > ./constant/cyclotron.stl
+cat ./constant/dee3.stl ./constant/body3.stl ./constant/dummy3.stl ./constant/filament3.stl ./constant/cable3.stl ./constant/faraday3.stl > ./constant/cyclotron.stl
 surfaceFeatureEdges -angle 45 constant/cyclotron.stl constant/cyclotron2.stl
 cartesianMesh
 
@@ -39,3 +40,11 @@ cp ./0/rho ./cases/filament2/0/
 ln -s ../../../constant/polyMesh ./cases/filament2/constant/polyMesh
 cp -r ./constant/physicalProperties ./cases/filament2/constant/
 cp -r ./system ./cases/filament2/
+
+mkdir -p ./cases/faraday/0
+mkdir -p ./cases/faraday/constant
+cp ./0/phi_faraday ./cases/faraday/0/phi
+cp ./0/rho ./cases/faraday/0/
+ln -s ../../../constant/polyMesh ./cases/faraday/constant/polyMesh
+cp -r ./constant/physicalProperties ./cases/faraday/constant/
+cp -r ./system ./cases/faraday/
