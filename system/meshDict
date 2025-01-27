@@ -44,7 +44,7 @@ renameBoundary
         }
         "cable.*"
         {
-            newName "body";
+            newName "cable";
             newType patch;
         }
         "body.*"

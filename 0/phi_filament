@@ -38,6 +38,12 @@ boundaryField
         value           uniform 0;
     }
 
+    cable
+    {
+        type            fixedValue;
+        value           uniform 1;
+    }
+
     faraday
     {
         type            fixedValue;

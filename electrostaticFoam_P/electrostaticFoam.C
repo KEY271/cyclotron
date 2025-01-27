@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
         int fallen = 0;
         int r_hit = 0;
         int z_hit = 0;
-        for (int n = 1; n <= 10000; ++n) {
+        for (int n = 1; n <= 1000; ++n) {
             scalar angle = 2.0 * M_PI * rng.sample01<scalar>();
             scalar r = 0.0005 + 0.003 * rng.sample01<scalar>();
             scalar theta = rng.sample01<scalar>();

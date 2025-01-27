@@ -45,6 +45,19 @@ boundaryField
         value           uniform 0;
     }
 
+    cable
+    {
+        type            uniformFixedValue;
+        uniformValue
+        {
+            type expression;
+            expression
+            #{
+                (pos().z() - 0.01) * 250
+            #};
+        }
+    }
+
     faraday
     {
         type            fixedValue;
