@@ -6,3 +6,4 @@ rm -r ./cases/dee
 rm -r ./cases/filament
 rm -r ./cases/filament2
 rm -r ./cases/faraday
+rm -r ./test/0

@@ -1,3 +1,3 @@
-translate ([0, -5, 6]) {
-    cylinder (r=0.25, h=8, $fn=100);
+translate ([0, -8, 3]) {
+    cylinder (r=0.25, h=10, $fn=100);
 }
