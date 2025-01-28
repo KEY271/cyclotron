@@ -54,10 +54,24 @@
         physicalProperties
     );
 
-     dimensionedScalar Vc
+    dimensionedScalar Vc
     (
         "Vc",
         dimensionSet(1, 1, -3, 0, 0, -1, 0),
+        physicalProperties
+    );
+
+    dimensionedScalar Br
+    (
+        "Br",
+        dimensionSet(0, -1, 0, 0, 0, 0, 0),
+        physicalProperties
+    );
+
+    dimensionedScalar Bz
+    (
+        "Bz",
+        dimensionSet(0, -1, 0, 0, 0, 0, 0),
         physicalProperties
     );
 
