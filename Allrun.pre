@@ -12,9 +12,17 @@ surfaces=(
 rm -rf ./constant/temp
 mkdir -p ./constant/temp
 
+shopt -s expand_aliases
+
+if sed --version 2>/dev/null | grep -q GNU; then
+  alias sedi='sed -i '
+else
+  alias sedi='sed -i "" '
+fi
+
 for surface in "${surfaces[@]}" ; do
     surfaceTransformPoints -scale 0.001 ./openscad/${surface}.stl ./constant/temp/${surface}.stl
-    sed -i "" s/OpenSCAD_Model/${surface}/g ./constant/temp/${surface}.stl
+    sedi s/OpenSCAD_Model/${surface}/g ./constant/temp/${surface}.stl
 done
 cat ./constant/temp/* > ./constant/cyclotron.stl
 surfaceFeatureEdges -angle 45 constant/cyclotron.stl constant/cyclotron.fms

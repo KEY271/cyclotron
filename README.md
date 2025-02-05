@@ -12,9 +12,9 @@ OpenFOAM をインストールしておいてください。
 まず`particleSim/physicalProperties.sample`をコピーして`particleSim/physicalProperties`を作ってください。
 - これは陽イオンの運動のシミュレーションの設定ファイルです。
 
-そうしたら次のシェルスクリプトを実行してください。
+そうしたら`openfoam2312`を実行してOpenFOAMのシェルセッションを開始し、次のシェルスクリプトを順番に実行してください。
 - `./Allrun.pre`: メッシュを作成します。
-- `./Allrun`: `electrostaticFoam`で静電場のシミュレーションを行います。
+- `./Allrun.main`: `electrostaticFoam`で静電場のシミュレーションを行います。
 - `source ./Allrun.sim`: 陽イオンの運動のシミュレーションを行います。
     - これだけは`source`が必要です。
 
