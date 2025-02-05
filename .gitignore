@@ -11,6 +11,7 @@
 !0/*
 !*.scad
 !particleSim/system/*
+!particleSim/constant/physicalProperties.sample
 !electrostaticFoam_P/createFields.H
 !electrostaticFoam_P/electrostaticFoam.C
 !electrostaticFoam_P/Make/files
