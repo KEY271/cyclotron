@@ -9,11 +9,12 @@
 !system/meshDict
 !constant/physicalProperties
 !0/*
-!*.scad
+!openscad/*
 !particleSim/system/*
 !particleSim/constant/physicalProperties.sample
 !electrostaticFoam_P/createFields.H
 !electrostaticFoam_P/electrostaticFoam.C
 !electrostaticFoam_P/Make/files
 !electrostaticFoam_P/Make/options
+!README.md
 cases
