@@ -1,9 +1,11 @@
-rm ./constant/cyclotron.stl
-rm ./constant/*2.stl
-rm ./constant/*3.stl
-rm -r ./constant/polyMesh
-rm -r ./cases/dee
-rm -r ./cases/filament
-rm -r ./cases/filament2
-rm -r ./cases/faraday
-rm -r ./test/0
+#!/bin/bash
+
+rm -f ./constant/cyclotron.stl
+rm -f ./constant/cyclotron.fms
+rm -rf ./constant/temp
+rm -rf ./constant/polyMesh
+rm -rf ./cases/dee
+rm -rf ./cases/filament
+rm -rf ./cases/filament2
+rm -rf ./cases/faraday
+rm -rf ./particleSim/0

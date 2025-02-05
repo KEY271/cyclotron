@@ -17,7 +17,7 @@ FoamFile
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-surfaceFile "constant/cyclotron2.stl";
+surfaceFile "constant/cyclotron.fms";
 
 maxCellSize 0.0005;
 
@@ -40,32 +40,32 @@ renameBoundary
         "dummy.*"
         {
             newName "body";
-            newType patch;
+            type    patch;
         }
         "cable.*"
         {
             newName "cable";
-            newType patch;
+            type    patch;
         }
         "body.*"
         {
             newName "body";
-            newType patch;
+            type    patch;
         }
         "dee.*"
         {
             newName "dee";
-            newType patch;
+            type    patch;
         }
         "filament.*"
         {
             newName "filament";
-            newType patch;
+            type    patch;
         }
         "faraday.*"
         {
             newName "faraday";
-            newType patch;
+            type    patch;
         }
     }
 }

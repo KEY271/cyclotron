@@ -9,12 +9,15 @@ surfaces=(
     "faraday"
 )
 
+rm -rf ./constant/temp
+mkdir -p ./constant/temp
+
 for surface in "${surfaces[@]}" ; do
-    surfaceTransformPoints -scale 0.001 ./constant/${surface}.stl ./constant/${surface}2.stl
-    sed s/OpenSCAD_Model/${surface}/g ./constant/${surface}2.stl > ./constant/${surface}3.stl
+    surfaceTransformPoints -scale 0.001 ./openscad/${surface}.stl ./constant/temp/${surface}.stl
+    sed -i "" s/OpenSCAD_Model/${surface}/g ./constant/temp/${surface}.stl
 done
-cat ./constant/dee3.stl ./constant/body3.stl ./constant/dummy3.stl ./constant/filament3.stl ./constant/cable3.stl ./constant/faraday3.stl > ./constant/cyclotron.stl
-surfaceFeatureEdges -angle 45 constant/cyclotron.stl constant/cyclotron2.stl
+cat ./constant/temp/* > ./constant/cyclotron.stl
+surfaceFeatureEdges -angle 45 constant/cyclotron.stl constant/cyclotron.fms
 cartesianMesh
 
 mkdir -p ./cases/dee/0

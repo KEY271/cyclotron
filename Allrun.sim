@@ -1,0 +1,8 @@
+#!/bin/bash
+
+unlink ./particleSim/constant/polyMesh
+ln -s ../../constant/polyMesh ./particleSim/constant/polyMesh
+cd ./electrostaticFoam_P
+wmake
+cd ..
+electrostaticFoam_P -case ./particleSim

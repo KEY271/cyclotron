@@ -61,6 +61,31 @@
         physicalProperties
     );
 
+    dimensionedScalar Bmax
+    (
+        "Bmax",
+        dimensionSet(1, 0, -2, 0, 0, -1, 0),
+        physicalProperties
+    );
+
+    dimensionedScalar Bmin
+    (
+        "Bmin",
+        dimensionSet(1, 0, -2, 0, 0, -1, 0),
+        physicalProperties
+    );
+
+    dimensionedScalar Bstep
+    (
+        "Bstep",
+        dimensionSet(1, 0, -2, 0, 0, -1, 0),
+        physicalProperties
+    );
+
+    bool trajectory = physicalProperties.get<bool>("trajectory");
+
+    bool corrected = physicalProperties.get<bool>("corrected");
+
     dimensionedScalar Br
     (
         "Br",

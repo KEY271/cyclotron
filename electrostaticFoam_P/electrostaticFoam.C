@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[]) {
     argList::addNote(
-        "Solver for electrostatics."
+        "Solver for charged particles."
     );
 
     #include "addCheckCaseOptions.H"
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     // 電場
     const volVectorField E1 = (-fvc::grad(phi1) * V).ref();
     const volVectorField E2 = (-fvc::grad(phi2) * Vf).ref();
-    const volVectorField E3 = (-fvc::grad(phi3) * Vi / 2.0).ref();
+    const volVectorField E3 = (-fvc::grad(phi3) * Vi).ref();
     const volVectorField E4 = (-fvc::grad(phi4) * Vc).ref();
     const interpolationCellPoint<vector> E1Interp(E1);
     const interpolationCellPoint<vector> E2Interp(E2);
@@ -35,6 +35,12 @@ int main(int argc, char *argv[]) {
     if (!isDir(dir)) {
         mkDir(dir);
     }
+    if (trajectory) {
+        const fileName trajectoryDir = dir / "trajectory";
+        if (!isDir(trajectoryDir)) {
+            mkDir(trajectoryDir);
+        }
+    }
     const fileName file = dir / "result";
     OFstream os(file);
     os << "b count fallen r_hit z_hit" << endl;
@@ -43,9 +49,13 @@ int main(int argc, char *argv[]) {
 
     Info << "Starting" << endl;
 
-    for (double b = 0; b < 0.301; b += 0.01) {
+    for (double b = Bmin.value(); b < Bmax.value() + Bstep.value() / 2; b += Bstep.value()) {
         double bz = Bz.value() * b;
         double br = Br.value() * b;
+        if (!corrected) {
+            bz = 0;
+            br = 0;
+        }
         int count = 0;
         int fallen = 0;
         int r_hit = 0;
@@ -56,38 +66,50 @@ int main(int argc, char *argv[]) {
             scalar theta = rng.sample01<scalar>();
             point p(r * std::cos(angle), -0.008 + r * std::sin(angle), 0.009 + 0.004 * 2.0 * (rng.sample01<scalar>() - 0.5));
             vector v(0, 0, 0);
+            List<scalar> posx(0, 0);
+            List<scalar> posy(0, 0);
+            List<scalar> posz(0, 0);
+            // Runge-Kutta法
             for (int i = 0; i < 100000; ++i) {
+                // フィラメント
                 if (p.x() * p.x() + (p.y() + 0.008) * (p.y() + 0.008) < 0.00025 * 0.00025 &&
                     p.z() > 0.003 && p.z() < 0.013) {
                     fallen++;
                     break;
                 }
+                // 下のケーブル
                 if (p.x() * p.x() + (p.z() - 0.003) * (p.z() - 0.003) < 0.00025 * 0.00025 &&
                     p.y() > -0.003) {
                     fallen++;
                     break;
                 }
+                // 上のケーブル
                 if (p.x() * p.x() + (p.z() - 0.013) * (p.z() - 0.013) < 0.00025 * 0.00025 &&
                     p.y() > -0.004) {
                     fallen++;
                     break;
                 }
+                // Dee電極
                 if ((p.x() + 0.005) * (p.x() + 0.005) + p.y() * p.y() > 0.025 * 0.025 && p.x() < -0.005) {
                     r_hit++;
                     break;
                 }
+                // 真空容器の壁
                 if (p.x() * p.x() + p.y() * p.y() > 0.037 * 0.037) {
                     r_hit++;
                     break;
                 }
+                // ダミーDee電極
                 if (p.x() > 0.002 && p.x() < 0.008 && (p.y() > 0.025 || p.y() < -0.025)) {
                     r_hit++;
                     break;
                 }
+                // 上下の壁
                 if (p.z() < 0.004 || p.z() > 0.013) {
                     z_hit++;
                     break;
                 }
+                // 検出器
                 if (p.z() > 0.004 && p.z() < 0.014 && p.y() > -0.002 && p.y() < 0.002 && p.x() > 0.018 && p.x() < 0.030) {
                     count++;
                     break;
@@ -134,6 +156,19 @@ int main(int argc, char *argv[]) {
                 p += (v + (dv1 * 2.0 + dv2 * 2.0 + dv3) / 6.0) * timestep;
                 v += (dv1 + dv2 * 2.0 + dv3 * 2.0 + dv4) / 6.0;
                 time += timestep;
+                posx.append(p.x());
+                posy.append(p.y());
+                posz.append(p.z());
+            }
+            if (trajectory) {
+                const fileName trajectoryDir = dir / "trajectory" / std::to_string(b);
+                if (!isDir(trajectoryDir)) {
+                    mkDir(trajectoryDir);
+                }
+                OFstream os(trajectoryDir / std::to_string(n));
+                forAll(posx, i) {
+                    os << posx[i] << " " << posy[i] << " " << posz[i] << endl;
+                }
             }
             time = 0;
             Info << n << "\r" << flush;
