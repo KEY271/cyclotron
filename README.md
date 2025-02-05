@@ -15,8 +15,8 @@ OpenFOAM をインストールしておいてください。
 そうしたら`openfoam2312`を実行してOpenFOAMのシェルセッションを開始し、次のシェルスクリプトを順番に実行してください。
 - `./Allrun.pre`: メッシュを作成します。
 - `./Allrun.main`: `electrostaticFoam`で静電場のシミュレーションを行います。
-- `source ./Allrun.sim`: 陽イオンの運動のシミュレーションを行います。
-    - これだけは`source`が必要です。
+- `./Allrun.sim`: 陽イオンの運動のシミュレーションを行います。
+    - `./Allrun.sim: line 8: 98342 Abort trap: 6`というエラーが出た場合は`source ./Allrun.sim`としてみてください(macだと必要？)。
 
 すると、`results`ディレクトリに結果が出力されます。`particleSim/physicalProperties`の設定で`trajectory`を`true`にしていた場合は`results/trajectory`に軌跡が出力されます。
 
